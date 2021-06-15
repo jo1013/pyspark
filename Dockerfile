@@ -1,11 +1,17 @@
 # syntax=docker/dockerfile:1
-FROM python:3.7-alpine
-WORKDIR /code
-ENV FLASK_APP=app.py
-ENV FLASK_RUN_HOST=0.0.0.0
-RUN apk add --no-cache gcc musl-dev linux-headers
-COPY requirements.txt requirements.txt
-RUN pip install -r requirements.txt
-EXPOSE 5000
-COPY . .
-CMD ["flask", "run"]
+FROM ubuntu:20.10
+
+RUN apt-get dist-upgrade -y
+RUN apt-get update
+
+RUN apt update
+RUN apt install software-properties-common -y
+
+
+RUN apt-get dist-upgrade -y
+RUN apt-get install python3-pip -y
+RUN apt update
+
+EXPOSE 8888
+EXPOSE 8000
+
