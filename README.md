@@ -23,3 +23,8 @@ $ jupyter notebook --allow-root --ip=0.0.0.0 --port=8888 --no-browser
 ```
 $ docker exec -it cef2db19cd8b bash
 ```
+
+### mysql도 같이 작동
+```
+$ docker-compose up 
+```

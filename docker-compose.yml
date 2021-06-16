@@ -1,4 +1,5 @@
 version: "3.7" # 파일 규격 버전
+# docker-compose 버전으로 버전3부터는 links 옵션을 넣지않아도 docker-compose내의 Container는 연결된다.
 services: # 이 항목 밑에 실행하려는 컨테이너 들을 정의 ( 컴포즈에서 컨테이너 : 서비스 )
 
 
@@ -10,6 +11,7 @@ services: # 이 항목 밑에 실행하려는 컨테이너 들을 정의 ( 컴�
     container_name: db # 컨테이너 이름 설정
     ports:
       - "3306:3306" # 접근 포트 설정 (컨테이너 외부:컨테이너 내부)  <- 컨테이너 내부는 무조건 3306
+   # env_file: .env
     environment: # -e 옵션
       - MYSQL_DATABASE=testdb
       - MYSQL_ROOT_PASSWORD=root # MYSQL 패스워드 설정 옵션
@@ -20,7 +22,9 @@ services: # 이 항목 밑에 실행하려는 컨테이너 들을 정의 ( 컴�
       - --collation-server=utf8mb4_unicode_ci
     volumes:
       - ~/workspace/pyspark/db:/var/lib/mysql # -v 옵션 (다렉토리 마운트 설정)
-  
+#    networks:
+ #     - backend
+    restart: always
 
 
   py_spark:
@@ -32,3 +36,7 @@ services: # 이 항목 밑에 실행하려는 컨테이너 들을 정의 ( 컴�
       - "8000:8000"
     volumes:
       - ~/workspace:/home
+    stdin_open: true
+    tty: true
+
+
