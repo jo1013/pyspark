@@ -9,6 +9,7 @@ from PIL import Image
 
 import io
 from starlette.responses import StreamingResponse
+
 ## pyspark를 불러옵니다.
 
 
@@ -18,10 +19,6 @@ from starlette.responses import StreamingResponse
 #sc = SparkContext(master="local", appName="first app")
 
 
-
-
-
-path = '../초기구상.png'
 
 image_pil = Image.open(path)
 image = np.array(image_pil)
