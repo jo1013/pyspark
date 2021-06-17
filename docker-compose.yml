@@ -31,6 +31,8 @@ services: # 이 항목 밑에 실행하려는 컨테이너 들을 정의 ( 컴�
     image : jo1013/pyspark:0.05
     restart : always
     container_name : py_spark
+    command :
+      - jupyter notebook --allow-root --ip=0.0.0.0 --port=8888 --no-browser
     ports :
       - "8888:8888"
       - "8000:8000"
