@@ -28,3 +28,15 @@ $ docker exec -it cef2db19cd8b bash
 ```
 $ docker-compose up 
 ```
+
+
+
+### mysql run 
+```
+$ docker run -n db-mysql -e MYSQL_DATABASE=testdb - MYSQL_ROOT_PASSWORD=root - TZ=Asia/Seoul -p 3306:3306 -c --character-set-server=utf8mb4 -c --collation-server=utf8mb4_unicode_ci 
+```
+
+
+docker run --name db-mysql -e MYSQL_ROOT_PASSWORD=root -d -p 3306:3306 mysql
+
+
