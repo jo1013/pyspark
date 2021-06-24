@@ -2,7 +2,22 @@ version: "3.7" # 파일 규격 버전
 # docker-compose 버전으로 버전3부터는 links 옵션을 넣지않아도 docker-compose내의 Container는 연결된다.
 services: # 이 항목 밑에 실행하려는 컨테이너 들을 정의 ( 컴포즈에서 컨테이너 : 서비스 )
 
-
+# mysql:
+#   container_name: mysql
+#   image: mysql:latest
+#   restart: always
+#   networks:
+#    - backend
+#   ports:
+#    - 3306:3306
+#   volumes:
+#     - ./db/conf.d:/etc/mysql/conf.d
+#     - ./db/data:/var/lib/mysql
+#     - ./db/initdb.d:/docker-entrypoint-initdb.d   
+#   environment:  
+#     - MYSQL_ROOT_PASSWORD=root
+#     - MYSQL_USER=sawyer
+#     - MYSQL_PASSWORD=root
 
   db: # 서비스 명
     image: mysql:8.0.17 # 사용할 이미지
@@ -41,3 +56,7 @@ services: # 이 항목 밑에 실행하려는 컨테이너 들을 정의 ( 컴�
     tty: true
 
 
+
+
+    # networks:
+    #   backend:
