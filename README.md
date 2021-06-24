@@ -2,18 +2,16 @@
 
 
 ``` 
-$ docker pull jupyter/pyspark-notebook
+$ docker pull jo1013/pyspark:0.05
+```
+
+##  pyspark 컨테이너만 실행 
+```
+$ docker run -it --rm -p 8888:8888 -p 8000:8000 -v ~/workspace:/home jo1013/pyspark:0.05
 ```
 
 
-~~$ docker run -it --rm -p 8888:8888 -v pwd:/home jupyter/pyspark-notebook~~
-
-
-
-```
-$ docker run -it --rm -p 8888:8888 -p 8000:8000 -v ~/workspace:/home jo1013/pyspark:0.04
-```
-
+### 쥬피터 노트북 실행 포트 8888 
 ```
 $ jupyter notebook --allow-root --ip=0.0.0.0 --port=8888 --no-browser
 ```

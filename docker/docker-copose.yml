@@ -16,6 +16,21 @@ services:
       - MYSQL_USER=sawyer
       - MYSQL_PASSWORD=root
      # TZ: Asia/Seoul
+    
+  py_spark:
+    image : jo1013/pyspark:0.05
+    restart : always
+    container_name : py_spark
+
+    ports :
+      - "8888:8888"
+      - "8000:8000"
+    volumes:
+      - ~/workspace:/home
+    stdin_open: true
+    tty: true
+
+
 
 networks:
   backend:
