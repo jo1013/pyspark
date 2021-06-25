@@ -12,7 +12,7 @@ $ docker pull jo1013/Airflowex:0.03
 ## 1\. 실행 명령어
 
 ```
-$ docker run -it -d -p 8090:8080 -v ~/workspace:/home -e LC_ALL=C.UTF-8 --name airflow4 jo1013/airflowex:0.03
+$ docker run -it -d -p 8090:8080 -v ~/workspace:/home -e LC_ALL=C.UTF-8 --name airflow6 jo1013/airflowex:0.05
 
 $ docker run -it -d -p [연결로컬포트]:[연결도커포트] -v [로컬디렉터리]:[컨테이너디렉터리] -e LC_ALL=C.[인코딩방식] --name [설정할이름] [dockerhubid]/[imagename]:[tag]
 ```
@@ -108,7 +108,7 @@ sql_alchemy_conn = postgresql+psycopg2://timmy:0000@172.17.0.2/airflow
 
 ```
 
-sql\_alchemy\_conn에 localhost를 적으면 해당 컨테이너를 찾아가지 못하기 때문에 host의 ip 혹은 postgres컨테이너의 ip를 넣어줘야한다.
+* sql\_alchemy\_conn에 localhost를 적으면 해당 컨테이너를 찾아가지 못하기 때문에 host의 ip 혹은 postgres컨테이너의 ip를 넣어줘야한다.
 
 #### ip 확인
 
@@ -147,7 +147,6 @@ $ mkdir logs
 
 ```
 $ airflow db init
-
 ```
 
 ## 5\. 변경 내용 저장
@@ -196,18 +195,11 @@ exit()
 
 ```
 $ airflow users create \
-
-  --username admin \
-
-  --firstname aaa \
-
-  --lastname bbb \
-
-  --role Admin \
-
- --password admin \
-
-  --email tkdah0@gmail.com
+          --username admin \
+          --firstname FIRST_NAME \
+          --lastname LAST_NAME \
+          --role Admin \
+          --email admin@example.org
 
 ```
 
