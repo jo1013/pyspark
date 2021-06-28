@@ -1,11 +1,14 @@
 # AIRFLOW + PYSPARK
 
+
 ---
 이 글은 우분투 기준으로 작성되었습니다.
 ---
+
 ## 0\. 환경셋팅
 
 ### docker 환경 다운
+
 ```
 $ docker pull jo1013/pyspark:0.05
 $ docker pull jo1013/airflowex:0.06
@@ -14,6 +17,7 @@ $ docker pull mysql:8.0.17
 
 
 ### git clone 
+
 ```
 $ git clone https://github.com/jo1013/pyspark.git
 $ cd pyspark
@@ -49,7 +53,7 @@ $ service postgresql start
 
 ## 2.5. DB 생성 후 
 
-
+### DB account 설정 및 권한 설정
 ```
 $ sudo su - postgres
 $ psql
@@ -82,20 +86,20 @@ $ pg_ctlcluster 13 main start
 # $ nano pg_hba.conf
 ```
 
-#### 아래와 같이 수정
-
+### 아래와 같이 수정
+### 모든 포트에 대해 열어놓기 (추후 수정 필요)
 ```
 # IPv4 local connections:                                                          
 host        all             all             0.0.0.0/0               md5 
 ```
 
-#### 재시작
+#### DB 재시작
 
 ```
 $ service postgresql restart
 ```
 
-# airflow 수정하기
+# Arflow 수정하기
 
 ## 1\. 연결 DB 변경
 
@@ -104,7 +108,7 @@ $ nano /root/airflow/airflow.cfg
 
 ```
 
-아래와 같이 수정한다.
+### 아래와 같이 수정한다.
 
 ```
 # dags_folder = /root/airflow/dags 
@@ -119,15 +123,17 @@ default_timezone = Asia/Seoul
 # executor = SequentialExecutor 
 executor = LocalExecutor 
 
+
 # sql_alchemy_conn = sqlite:////root/airflow/airflow.db 
 # sql_alchemy_conn = postgresql+psycopg2://timmy:0000@172.17.0.2/airflow    # docker hub에서는 가능햇으나 docker-compose는 ip주소가 달라진다.
 
 sql_alchemy_conn = postgresql+psycopg2://timmy:0000@localhost/airflow
 ```
+--> 같은 docker네에서 postgresql이 작동하므로 localhost로 고친다.
 
 * sql\_alchemy\_conn에 localhost를 적으면 해당 컨테이너를 찾아가지 못하기 때문에 host의 ip 혹은 postgres컨테이너의 ip를 넣어줘야한다.
 
-#### ip 확인
+#### IP 확인
 
 ```
 $ ifconfig
@@ -271,6 +277,7 @@ airflow db init
 
 
 
+---------------------------------------------------
 
 
 
@@ -282,13 +289,19 @@ airflow db init
 # pyspark
 
 
-```
 
-##  pyspark 컨테이너만 실행 
+#### pyspark 컨테이너만 실행 
+
 ```
 $ docker run -it --rm -p 8888:8888 -p 8000:8000 -v ~/workspace:/home jo1013/pyspark:0.05
 ```
 
+### pyspark bash 접속
+
+```
+$ docker exec -it py_spark bash
+$ docker exec -it [container id or container name] bash
+```
 
 ### 쥬피터 노트북 실행 포트 8888 
 ```
@@ -296,19 +309,8 @@ $ jupyter notebook --allow-root --ip=0.0.0.0 --port=8888 --no-browser
 ```
 
 
-### 컨테이너 베쉬 접속
-```
-$ docker exec -it cef2db19cd8b bash
-```
 
-### mysql도 같이 작동
-```
-$ docker-compose up 
-```
-
-
-
-### mysql run 
+### mysql만 run   run 
 
 ```
 $ docker run -n db-mysql -e MYSQL_DATABASE=testdb - MYSQL_ROOT_PASSWORD=root - TZ=Asia/Seoul -p 3306:3306 -c --character-set-server=utf8mb4 -c --collation-server=utf8mb4_unicode_ci 
@@ -320,10 +322,8 @@ $ docker run --name db-mysql -e MYSQL_ROOT_PASSWORD=root -d -p 3306:3306 mysql
 
 ### airflow dag 리스트 보기 
 ```
-$ airflow dags list애
+$ airflow dags list
 ```
-
-
 
 ### task list 보기 
 
