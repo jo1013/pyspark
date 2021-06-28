@@ -19,16 +19,14 @@ services: # 이 항목 밑에 실행하려는 컨테이너 들을 정의 ( 컴�
 #     - MYSQL_USER=sawyer
 #     - MYSQL_PASSWORD=root
 
-  airflow:
-    image : jo1013/airflowex:0.04
+  airflow6:
+    image : jo1013/airflowex:0.06
     restart: always
-    container_name:  airflow
+    container_name:  airflow6
     ports: 
       - "8090:8080"
     environment: 
       -  LC_ALL=C.UTF-8
-      command: 
-      - service postgresql start
     volumes:
       - ~/workspace:/home # -v 옵션 (다렉토리 마운트 설정)
 

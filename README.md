@@ -6,13 +6,13 @@
 ```
 $ git clone https://github.com/jo1013/Airflowex.git 
 $ cd Airflow
-$ docker pull jo1013/Airflowex:0.03
+$ docker pull jo1013/Airflowex:0.06
 ```
 
-## 1\. 실행 명령어
+## 1\. 실행 명령어 (airflow만)
 
 ```
-$ docker run -it -d -p 8090:8080 -v ~/workspace:/home -e LC_ALL=C.UTF-8 --name airflow6 jo1013/airflowex:0.05
+$ docker run -it -d -p 8090:8080 -v ~/workspace:/home -e LC_ALL=C.UTF-8 --name airflow6 jo1013/airflowex:0.06
 
 $ docker run -it -d -p [연결로컬포트]:[연결도커포트] -v [로컬디렉터리]:[컨테이너디렉터리] -e LC_ALL=C.[인코딩방식] --name [설정할이름] [dockerhubid]/[imagename]:[tag]
 ```
@@ -20,7 +20,7 @@ $ docker run -it -d -p [연결로컬포트]:[연결도커포트] -v [로컬디�
 ## 2\. 배쉬 접속하기
 
 ```
-$ docker exec -it airflow4 bash
+$ docker exec -it airflow6 bash
 
 $ docker exec -it [설정이름] bash
 ```
@@ -104,8 +104,9 @@ default_timezone = Asia/Seoul
 executor = LocalExecutor 
 
 # sql_alchemy_conn = sqlite:////root/airflow/airflow.db 
-sql_alchemy_conn = postgresql+psycopg2://timmy:0000@172.17.0.2/airflow
+# sql_alchemy_conn = postgresql+psycopg2://timmy:0000@172.17.0.2/airflow    # docker hub에서는 가능햇으나 docker-compose는 ip주소가 달라진다.
 
+sql_alchemy_conn = postgresql+psycopg2://timmy:0000@localhost/airflow
 ```
 
 * sql\_alchemy\_conn에 localhost를 적으면 해당 컨테이너를 찾아가지 못하기 때문에 host의 ip 혹은 postgres컨테이너의 ip를 넣어줘야한다.
