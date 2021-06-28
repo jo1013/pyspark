@@ -1,21 +1,37 @@
-# AIRFLOW
+# AIRFLOW + PYSPARK
 
-
+---
+이 글은 우분투 기준으로 작성되었습니다.
+---
 ## 0\. 환경셋팅
 
+### docker 환경 다운
 ```
-$ git clone https://github.com/jo1013/Airflowex.git 
+$ docker pull jo1013/pyspark:0.05
+$ docker pull jo1013/airflowex:0.06
+$ docker pull mysql:8.0.17
+```
+
+
+### git clone 
+```
+$ git clone https://github.com/jo1013/pyspark.git
+$ cd pyspark
+```
+
+## 1\. 실행 명령어 
+
+``` 
+$ docker-compose up  ## mysql pyspark airflow(postgresql) 컨테이너실행
+```
+
+### airflow만  실행 명령어
+```
 $ cd Airflow
-$ docker pull jo1013/Airflowex:0.06
-```
-
-## 1\. 실행 명령어 (airflow만)
-
-```
 $ docker run -it -d -p 8090:8080 -v ~/workspace:/home -e LC_ALL=C.UTF-8 --name airflow6 jo1013/airflowex:0.06
-
 $ docker run -it -d -p [연결로컬포트]:[연결도커포트] -v [로컬디렉터리]:[컨테이너디렉터리] -e LC_ALL=C.[인코딩방식] --name [설정할이름] [dockerhubid]/[imagename]:[tag]
 ```
+
 
 ## 2\. 배쉬 접속하기
 
@@ -266,8 +282,6 @@ airflow db init
 # pyspark
 
 
-``` 
-$ docker pull jo1013/pyspark:0.05
 ```
 
 ##  pyspark 컨테이너만 실행 
