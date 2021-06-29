@@ -19,10 +19,10 @@ services: # 이 항목 밑에 실행하려는 컨테이너 들을 정의 ( 컴�
 #     - MYSQL_USER=sawyer
 #     - MYSQL_PASSWORD=root
 
-  airflow6:
+  airflow:
     image : jo1013/airflowex:0.06
     restart: always
-    container_name:  airflow6
+    container_name:  airflow
     ports: 
       - "8090:8080"
     environment: 
