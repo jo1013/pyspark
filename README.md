@@ -230,12 +230,17 @@ $ airflow users create \
 
 
 
-#### airflow 시작
+## postgreqs 시작
+## airflow 시작 명령어
 
 ```
+
+$ service postgresql start
 $ airflow webserver
 ```
 
+
+* db 초기화 (postgres10 )
 ```
 airflow db init 
 ```
@@ -330,3 +335,10 @@ $ airflow dags list
 ```
 $ airflow tasks list
 ```
+
+
+
+### 쥬피터 노트북 실행 포트 8888 
+```
+$ jupyter notebook --allow-root --ip=0.0.0.0 --port=8888 --no-browser
+```docker-compose up 
