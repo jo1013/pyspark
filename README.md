@@ -11,7 +11,7 @@
 
 ```
 $ docker pull jo1013/pyspark:0.05
-$ docker pull jo1013/airflowex:0.07
+$ docker pull jo1013/airflow:0.07
 $ docker pull mysql:8.0.17
 ```
 
