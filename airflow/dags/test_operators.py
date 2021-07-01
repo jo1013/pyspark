@@ -1,16 +1,37 @@
+import logging
+
+from airflow.models import BaseOperator
+from airflow.plugins_manager import AirflowPlugin
+from airflow.utils.decorators import apply_defaults
 from datetime import datetime
+from airflow.operators.sensors import BaseSensorOperator
 
-from airflow import DAG
-from airflow.operators.dummy_operator import DummyOperator
-from my_operators import MyFirstOperator
 
-dag = DAG('my_test_dag', description='Another tutorial DAG',
-          schedule_interval='0 12 * * *',
-          start_date=datetime(2017, 3, 20), catchup=False)
+log = logging.getLogger(__name__)
 
-dummy_task = DummyOperator(task_id='dummy_task', dag=dag)
+class MyFirstOperator(BaseOperator):
 
-operator_task = MyFirstOperator(my_operator_param='This is a test.',
-                                task_id='my_first_operator_task', dag=dag)
+    @apply_defaults
+    def __init__(self, my_operator_param, *args, **kwargs):
+    self.operator_param = my_operator_param
+    super(MyFirstOperator, self).__init__(*args, **kwargs)
 
-dummy_task >> operator_task
+    def poke(self, context):
+    current_minute = datetime.now().minute
+    if current_minute % 3 != 0:
+        log.info("Current minute (%s) not is divisible by 3, sensor will retry.", current_minute)
+        return False
+
+    log.info("Current minute (%s) is divisible by 3, sensor finishing.", current_minute)
+    return True
+
+def execute(self, context):
+log.info("Hello World!")
+log.info('operator_param: %s', self.operator_param)
+
+class MyFirstPlugin(AirflowPlugin):
+name = "my_first_plugin"
+operators = [MyFirstOperator, MyFirstSensor]
+
+
+
