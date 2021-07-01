@@ -73,7 +73,7 @@ executor = LocalExecutor
 ## 5\. 실행
 
 
-# airflow 시작 명령어
+## airflow 시작 명령어
 
 
 ```
@@ -81,8 +81,15 @@ $ airflow webserver
 ```
 * https://localhost:8090으로 접속하면 airflow화면을 볼 수 있다. 
 
-id : admin
-password : admin
+* id : admin
+* password : admin
+
+
+
+---
+---
+
+
 
 
 
