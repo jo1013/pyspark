@@ -11,7 +11,7 @@
 
 ```
 $ docker pull jo1013/pyspark:0.05
-$ docker pull jo1013/airflowex:0.06
+$ docker pull jo1013/airflowex:0.07
 $ docker pull mysql:8.0.17
 ```
 
@@ -40,7 +40,7 @@ $ docker run -it -d -p [연결로컬포트]:[연결도커포트] -v [로컬디�
 ## 2\. 배쉬 접속하기
 
 ```
-$ docker exec -it airflow6 bash
+$ docker exec -it airflow bash
 
 $ docker exec -it [설정이름] bash
 ```
@@ -125,16 +125,18 @@ default_timezone = Asia/Seoul
 # executor = SequentialExecutor 
 executor = LocalExecutor 
 
+```
 
+```
 # sql_alchemy_conn = sqlite:////root/airflow/airflow.db 
+# sql_alchemy_conn = postgresql+psycopg2://timmy:0000@172.17.0.2/airflow    
 
-# sql_alchemy_conn = postgresql+psycopg2://timmy:0000@172.17.0.2/
-
-airflow    # docker hub에서는 가능햇으나 docker-compose는 ip주소가 달라진다.
+# docker hub에서는 가능햇으나 docker-compose에서는 단일 컨테이너과 IP Adress가 달라진다.
 
 sql_alchemy_conn = postgresql+psycopg2://timmy:0000@localhost/airflow
+# --> 같은 docker (컨테이너) 내에서 postgresql이 작동하므로 localhost로 고친다.
 ```
---> 같은 docker (컨테이너) 내에서 postgresql이 작동하므로 localhost로 고친다.
+
 
 
 * sql\_alchemy\_conn에 localhost를 적으면 해당 컨테이너를 찾아가지 못하기 때문에 postgres컨테이너의 IP를 넣어줘야한다.
@@ -313,7 +315,7 @@ $ docker exec -it py_spark bash
 $ docker exec -it [container id or container name] bash
 ```
 
-### 쥬피터 노트북 실행 포트 8888 
+### 쥬피터 노트북 실행 포트 8888 (pyspark 컨테이너 내에서 실행)
 ```
 $ jupyter notebook --allow-root --ip=0.0.0.0 --port=8888 --no-browser
 ```
