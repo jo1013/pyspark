@@ -105,17 +105,19 @@ $ service postgresql restart
 
 ```
 $ nano /root/airflow/airflow.cfg
-
 ```
 
-### 아래와 같이 수정한다.
+### 아래와 같이 수정한다. (자신의 볼률 설정에 맞게 수정)
 
 ```
 # dags_folder = /root/airflow/dags 
-dags_folder = /home/dags 
+dags_folder = /home/pyspark/airflow/dags
 
 # base_log_folder = /root/airflow/logs 
-base_log_folder = /home/logs 
+base_log_folder = /home/pyspark/airflow/logs 
+
+# plugins_folder = /root/airflow/plugins
+plugins_folder = /home/pyspark/airflow/plugins
 
 # default_timezone = utc 
 default_timezone = Asia/Seoul 
@@ -125,19 +127,22 @@ executor = LocalExecutor
 
 
 # sql_alchemy_conn = sqlite:////root/airflow/airflow.db 
-# sql_alchemy_conn = postgresql+psycopg2://timmy:0000@172.17.0.2/airflow    # docker hub에서는 가능햇으나 docker-compose는 ip주소가 달라진다.
+
+# sql_alchemy_conn = postgresql+psycopg2://timmy:0000@172.17.0.2/
+
+airflow    # docker hub에서는 가능햇으나 docker-compose는 ip주소가 달라진다.
 
 sql_alchemy_conn = postgresql+psycopg2://timmy:0000@localhost/airflow
 ```
---> 같은 docker네에서 postgresql이 작동하므로 localhost로 고친다.
+--> 같은 docker (컨테이너) 내에서 postgresql이 작동하므로 localhost로 고친다.
 
-* sql\_alchemy\_conn에 localhost를 적으면 해당 컨테이너를 찾아가지 못하기 때문에 host의 ip 혹은 postgres컨테이너의 ip를 넣어줘야한다.
 
-#### IP 확인
+* sql\_alchemy\_conn에 localhost를 적으면 해당 컨테이너를 찾아가지 못하기 때문에 postgres컨테이너의 IP를 넣어줘야한다.
+
+### IP 확인
 
 ```
 $ ifconfig
-
 ```
 
 ## 2\. 외부접속 허용
@@ -154,6 +159,7 @@ IPv4 local connections:
 host        all             all             0.0.0.0/0               md5 
 ```
 
+## postgresql 재시작
 ```
 $ service postgresql restart
 ```
@@ -230,17 +236,16 @@ $ airflow users create \
 
 
 
-## postgreqs 시작
-## airflow 시작 명령어
+# postgreqs 시작 및 airflow 시작 명령어
+
 
 ```
-
 $ service postgresql start
 $ airflow webserver
 ```
 
 
-* db 초기화 (postgres10 )
+* db 초기화 (postgres 'airflow' table )
 ```
 airflow db init 
 ```

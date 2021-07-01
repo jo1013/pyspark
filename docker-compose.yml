@@ -4,7 +4,7 @@ services: # 이 항목 밑에 실행하려는 컨테이너 들을 정의 ( 컴�
 
 
   airflow:
-    image : jo1013/airflowex:0.06
+    image : jo1013/airflow:0.07
     restart: always
     container_name:  airflow
     ports: 
