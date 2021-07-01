@@ -1,8 +1,7 @@
 # AIRFLOW + PYSPARK
 
-
----
 이 글은 우분투 기준으로 작성되었습니다.
+
 ---
 
 ## 0\. 환경셋팅
@@ -16,7 +15,7 @@ $ docker pull mysql:8.0.17
 ```
 
 
-### git clone 
+### git clone (글쓴이는 /home/workspace 에서 실행)
 
 ```
 $ git clone https://github.com/jo1013/pyspark.git
@@ -28,16 +27,9 @@ $ cd pyspark
 ``` 
 $ docker-compose up  ## mysql pyspark airflow(postgresql) 컨테이너실행
 ```
+* (docker-compose.yml에서 3개의 container는 본인의 volumes에 맞게 수정한다.)
 
-### airflow만  실행 명령어
-```
-$ cd Airflow
-$ docker run -it -d -p 8090:8080 -v ~/workspace:/home -e LC_ALL=C.UTF-8 --name airflow6 jo1013/airflowex:0.06
-$ docker run -it -d -p [연결로컬포트]:[연결도커포트] -v [로컬디렉터리]:[컨테이너디렉터리] -e LC_ALL=C.[인코딩방식] --name [설정할이름] [dockerhubid]/[imagename]:[tag]
-```
-
-
-## 2\. 배쉬 접속하기
+## 2\. 다른 터미널로 컨테이너 접속하기
 
 ```
 $ docker exec -it airflow bash
@@ -45,69 +37,21 @@ $ docker exec -it airflow bash
 $ docker exec -it [설정이름] bash
 ```
 
+## 3\.  postgresql 구동
+
 * postgreqs 시작
 ```
 $ service postgresql start
 ```
 
 
-## 2.5. DB 생성 후 
-
-### DB account 설정 및 권한 설정
-```
-$ sudo su - postgres
-$ psql
-$ CREATE DATABASE airflow;
-$ CREATE USER timmy with ENCRYPTED password '0000';
-$ GRANT all privileges on DATABASE airflow to timmy;
-```
-
-
-#### postgres 유저의 airflow db접속
-
-```
-$ \c airflow
-$ GRANT all privileges on all tables in schema public to timmy;
-$ \q        
-$ exit
-```
-
-## 3\. postgre cluster 설정
-
-```
-$ pg_createcluster 13 main 
-$ pg_ctlcluster 13 main start
-```
-
-## 4\. postgresql 설정
-
-```
-# $ cd /etc/postgresql/13/main
-# $ nano pg_hba.conf
-```
-
-### 아래와 같이 수정
-### 모든 포트에 대해 열어놓기 (추후 수정 필요)
-```
-# IPv4 local connections:                                                          
-host        all             all             0.0.0.0/0               md5 
-```
-
-#### DB 재시작
-
-```
-$ service postgresql restart
-```
-
-# Arflow 수정하기
-
-## 1\. 연결 DB 변경
+## 4\. 연결 디렉토리 변경
 
 ```
 $ nano /root/airflow/airflow.cfg
 ```
 
-### 아래와 같이 수정한다. (자신의 볼률 설정에 맞게 수정)
+### 자신의 볼률 설정에 맞게 수정 (글쓴이와 폴더설정 같을 경우 고칠 필요 X)
 
 ```
 # dags_folder = /root/airflow/dags 
@@ -126,6 +70,81 @@ default_timezone = Asia/Seoul
 executor = LocalExecutor 
 
 ```
+## 5\. 실행
+
+
+# airflow 시작 명령어
+
+
+```
+$ airflow webserver
+```
+* https://localhost:8090으로 접속하면 airflow화면을 볼 수 있다. 
+
+id : admin
+password : admin
+
+
+
+
+### airflow만  실행 명령어
+```
+$ cd Airflow
+$ docker run -it -d -p 8090:8080 -v ~/workspace:/home -e LC_ALL=C.UTF-8 --name airflow6 jo1013/airflowex:0.06
+$ docker run -it -d -p [연결로컬포트]:[연결도커포트] -v [로컬디렉터리]:[컨테이너디렉터리] -e LC_ALL=C.[인코딩방식] --name [설정할이름] [dockerhubid]/[imagename]:[tag]
+```
+
+
+
+### DB account 설정 및 권한 설정
+```
+$ sudo su - postgres
+$ psql
+$ CREATE DATABASE airflow;
+$ CREATE USER timmy with ENCRYPTED password '0000';
+$ GRANT all privileges on DATABASE airflow to timmy;
+```
+
+
+### postgres 유저의 airflow db접속
+
+```
+$ \c airflow
+$ GRANT all privileges on all tables in schema public to timmy;
+$ \q        
+$ exit
+```
+
+### postgre cluster 설정
+
+```
+$ pg_createcluster 13 main 
+$ pg_ctlcluster 13 main start
+```
+
+## postgresql 설정
+
+```
+# $ cd /etc/postgresql/13/main
+# $ nano pg_hba.conf
+```
+
+### 아래와 같이 수정
+### 모든 포트에 대해 열어놓기 (추후 수정 필요)
+```
+# IPv4 local connections:                                                          
+host        all             all             0.0.0.0/0               md5 
+```
+
+### DB 재시작
+
+```
+$ service postgresql restart
+```
+
+### Arflow 수정하기
+
+
 
 ```
 # sql_alchemy_conn = sqlite:////root/airflow/airflow.db 
@@ -147,7 +166,7 @@ sql_alchemy_conn = postgresql+psycopg2://timmy:0000@localhost/airflow
 $ ifconfig
 ```
 
-## 2\. 외부접속 허용
+## 외부접속 허용
 
 ```
 $ cd /etc/postgresql/13/main
@@ -166,7 +185,7 @@ host        all             all             0.0.0.0/0               md5
 $ service postgresql restart
 ```
 
-## 3\. 폴더 만들기
+##  폴더 만들기
 
 ```
 $ cd Airflow
@@ -174,19 +193,19 @@ $ mkdir dags
 $ mkdir logs
 ```
 
-## 4\. airflow db 초기화 (로그인 안될때 이용)
+##  airflow db 초기화 (로그인 안될때 이용)
 
 ```
 $ airflow db init
 ```
 
-## 5\. 변경 내용 저장
+##  변경 내용 저장
 
 ```
 $ docker commit postgres postgres:airflow
 ```
 
-## 6\. 계정 생성 py 파일 실행
+## 계정 생성 py 파일 실행
 
 ```
 $ cd home
@@ -238,14 +257,6 @@ $ airflow users create \
 
 
 
-# postgreqs 시작 및 airflow 시작 명령어
-
-
-```
-$ service postgresql start
-$ airflow webserver
-```
-
 
 * db 초기화 (postgres 'airflow' table )
 ```
@@ -282,9 +293,21 @@ airflow db init
 
 출처 : https://aldente0630.github.io/data-engineering/2018/06/17/developing-workflows-with-apache-airflow.html
 
+-> 버전이 달라서인지  위 출처의 튜토리얼을 따라하다보면  import 오류가 발생하는데    dags/test_operators.py 에서 
 
+```
+from airflow.operators import MyFirstOperator
+```
+를  
 
+```
+from my_operators import MyFirstOperator
 
+from [filename] import [classname]
+```
+으로 고쳐주면 된다. 
+
+버전 변경으로 인한 오류로 보인다.?
 
 
 
@@ -348,4 +371,4 @@ $ airflow tasks list
 ### 쥬피터 노트북 실행 포트 8888 
 ```
 $ jupyter notebook --allow-root --ip=0.0.0.0 --port=8888 --no-browser
-```docker-compose up 
+```

@@ -2,7 +2,7 @@ from datetime import datetime
 
 from airflow import DAG
 from airflow.operators.dummy_operator import DummyOperator
-from airflow.operators import MyFirstOperator
+from my_operators import MyFirstOperator
 
 dag = DAG('my_test_dag', description='Another tutorial DAG',
           schedule_interval='0 12 * * *',
