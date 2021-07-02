@@ -15,7 +15,7 @@ services: # 이 항목 밑에 실행하려는 컨테이너 들을 정의 ( 컴�
       - ~/workspace:/home # -v 옵션 (다렉토리 마운트 설정)
 
      
-   airflow-db: # 서비스 명
+  airflow-db: # 서비스 명
     image: mysql:8.0.17 # 사용할 이미지
     restart: always
     command: --lower_case_table_names=1
