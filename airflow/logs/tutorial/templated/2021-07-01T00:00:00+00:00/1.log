@@ -1,0 +1,42 @@
+[2021-07-02 05:17:10,327] {taskinstance.py:876} INFO - Dependencies all met for <TaskInstance: tutorial.templated 2021-07-01T00:00:00+00:00 [queued]>
+[2021-07-02 05:17:10,339] {taskinstance.py:876} INFO - Dependencies all met for <TaskInstance: tutorial.templated 2021-07-01T00:00:00+00:00 [queued]>
+[2021-07-02 05:17:10,339] {taskinstance.py:1067} INFO - 
+--------------------------------------------------------------------------------
+[2021-07-02 05:17:10,339] {taskinstance.py:1068} INFO - Starting attempt 1 of 2
+[2021-07-02 05:17:10,340] {taskinstance.py:1069} INFO - 
+--------------------------------------------------------------------------------
+[2021-07-02 05:17:10,355] {taskinstance.py:1087} INFO - Executing <Task(BashOperator): templated> on 2021-07-01T00:00:00+00:00
+[2021-07-02 05:17:10,364] {standard_task_runner.py:52} INFO - Started process 124096 to run task
+[2021-07-02 05:17:10,372] {standard_task_runner.py:76} INFO - Running: ['airflow', 'tasks', 'run', 'tutorial', 'templated', '2021-07-01T00:00:00+00:00', '--job-id', '38', '--pool', 'default_pool', '--raw', '--subdir', '/usr/local/lib/python3.6/dist-packages/airflow/example_dags/tutorial.py', '--cfg-path', '/tmp/tmp0tmt3o6h', '--error-file', '/tmp/tmpn_nrqil_']
+[2021-07-02 05:17:10,375] {standard_task_runner.py:77} INFO - Job 38: Subtask templated
+[2021-07-02 05:17:10,431] {logging_mixin.py:104} INFO - Running <TaskInstance: tutorial.templated 2021-07-01T00:00:00+00:00 [running]> on host 9b3ed935c8bc
+[2021-07-02 05:17:10,508] {taskinstance.py:1282} INFO - Exporting the following env vars:
+AIRFLOW_CTX_DAG_EMAIL=airflow@example.com
+AIRFLOW_CTX_DAG_OWNER=airflow
+AIRFLOW_CTX_DAG_ID=tutorial
+AIRFLOW_CTX_TASK_ID=templated
+AIRFLOW_CTX_EXECUTION_DATE=2021-07-01T00:00:00+00:00
+AIRFLOW_CTX_DAG_RUN_ID=scheduled__2021-07-01T00:00:00+00:00
+[2021-07-02 05:17:10,508] {subprocess.py:52} INFO - Tmp dir root location: 
+ /tmp
+[2021-07-02 05:17:10,509] {subprocess.py:63} INFO - Running command: ['bash', '-c', '\n\n    echo "2021-07-01"\n    echo "2021-07-08"\n    echo "Parameter I passed in"\n\n    echo "2021-07-01"\n    echo "2021-07-08"\n    echo "Parameter I passed in"\n\n    echo "2021-07-01"\n    echo "2021-07-08"\n    echo "Parameter I passed in"\n\n    echo "2021-07-01"\n    echo "2021-07-08"\n    echo "Parameter I passed in"\n\n    echo "2021-07-01"\n    echo "2021-07-08"\n    echo "Parameter I passed in"\n']
+[2021-07-02 05:17:10,517] {subprocess.py:75} INFO - Output:
+[2021-07-02 05:17:10,518] {subprocess.py:79} INFO - 2021-07-01
+[2021-07-02 05:17:10,519] {subprocess.py:79} INFO - 2021-07-08
+[2021-07-02 05:17:10,519] {subprocess.py:79} INFO - Parameter I passed in
+[2021-07-02 05:17:10,519] {subprocess.py:79} INFO - 2021-07-01
+[2021-07-02 05:17:10,519] {subprocess.py:79} INFO - 2021-07-08
+[2021-07-02 05:17:10,519] {subprocess.py:79} INFO - Parameter I passed in
+[2021-07-02 05:17:10,519] {subprocess.py:79} INFO - 2021-07-01
+[2021-07-02 05:17:10,519] {subprocess.py:79} INFO - 2021-07-08
+[2021-07-02 05:17:10,519] {subprocess.py:79} INFO - Parameter I passed in
+[2021-07-02 05:17:10,519] {subprocess.py:79} INFO - 2021-07-01
+[2021-07-02 05:17:10,519] {subprocess.py:79} INFO - 2021-07-08
+[2021-07-02 05:17:10,519] {subprocess.py:79} INFO - Parameter I passed in
+[2021-07-02 05:17:10,519] {subprocess.py:79} INFO - 2021-07-01
+[2021-07-02 05:17:10,519] {subprocess.py:79} INFO - 2021-07-08
+[2021-07-02 05:17:10,519] {subprocess.py:79} INFO - Parameter I passed in
+[2021-07-02 05:17:10,519] {subprocess.py:83} INFO - Command exited with return code 0
+[2021-07-02 05:17:10,548] {taskinstance.py:1191} INFO - Marking task as SUCCESS. dag_id=tutorial, task_id=templated, execution_date=20210701T***00, start_date=20210702T051710, end_date=20210702T051710
+[2021-07-02 05:17:10,567] {taskinstance.py:1245} INFO - 0 downstream tasks scheduled from follow-on schedule check
+[2021-07-02 05:17:10,585] {local_task_job.py:151} INFO - Task exited with return code 0

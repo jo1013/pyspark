@@ -1,0 +1,42 @@
+[2021-07-02 05:37:05,417] {taskinstance.py:876} INFO - Dependencies all met for <TaskInstance: test.templated 2020-02-14T05:55:00+00:00 [queued]>
+[2021-07-02 05:37:05,428] {taskinstance.py:876} INFO - Dependencies all met for <TaskInstance: test.templated 2020-02-14T05:55:00+00:00 [queued]>
+[2021-07-02 05:37:05,430] {taskinstance.py:1067} INFO - 
+--------------------------------------------------------------------------------
+[2021-07-02 05:37:05,430] {taskinstance.py:1068} INFO - Starting attempt 1 of 2
+[2021-07-02 05:37:05,431] {taskinstance.py:1069} INFO - 
+--------------------------------------------------------------------------------
+[2021-07-02 05:37:05,475] {taskinstance.py:1087} INFO - Executing <Task(BashOperator): templated> on 2020-02-14T05:55:00+00:00
+[2021-07-02 05:37:05,488] {standard_task_runner.py:52} INFO - Started process 138498 to run task
+[2021-07-02 05:37:05,497] {standard_task_runner.py:76} INFO - Running: ['airflow', 'tasks', 'run', 'test', 'templated', '2020-02-14T05:55:00+00:00', '--job-id', '63', '--pool', 'default_pool', '--raw', '--subdir', 'DAGS_FOLDER/test.py', '--cfg-path', '/tmp/tmpbjc4stfw', '--error-file', '/tmp/tmplnhd79ca']
+[2021-07-02 05:37:05,499] {standard_task_runner.py:77} INFO - Job 63: Subtask templated
+[2021-07-02 05:37:05,590] {logging_mixin.py:104} INFO - Running <TaskInstance: test.templated 2020-02-14T05:55:00+00:00 [running]> on host 9b3ed935c8bc
+[2021-07-02 05:37:05,731] {taskinstance.py:1282} INFO - Exporting the following env vars:
+AIRFLOW_CTX_DAG_EMAIL=airflow@airflow.com
+AIRFLOW_CTX_DAG_OWNER=airflow
+AIRFLOW_CTX_DAG_ID=test
+AIRFLOW_CTX_TASK_ID=templated
+AIRFLOW_CTX_EXECUTION_DATE=2020-02-14T05:55:00+00:00
+AIRFLOW_CTX_DAG_RUN_ID=scheduled__2020-02-14T05:55:00+00:00
+[2021-07-02 05:37:05,732] {subprocess.py:52} INFO - Tmp dir root location: 
+ /tmp
+[2021-07-02 05:37:05,732] {subprocess.py:63} INFO - Running command: ['bash', '-c', '\n        \n            echo "2020-02-14"\n            echo "2020-02-21"\n            echo "Parameter I passed in"\n        \n            echo "2020-02-14"\n            echo "2020-02-21"\n            echo "Parameter I passed in"\n        \n            echo "2020-02-14"\n            echo "2020-02-21"\n            echo "Parameter I passed in"\n        \n            echo "2020-02-14"\n            echo "2020-02-21"\n            echo "Parameter I passed in"\n        \n            echo "2020-02-14"\n            echo "2020-02-21"\n            echo "Parameter I passed in"\n        \n    ']
+[2021-07-02 05:37:05,778] {subprocess.py:75} INFO - Output:
+[2021-07-02 05:37:05,779] {subprocess.py:79} INFO - 2020-02-14
+[2021-07-02 05:37:05,781] {subprocess.py:79} INFO - 2020-02-21
+[2021-07-02 05:37:05,782] {subprocess.py:79} INFO - Parameter I passed in
+[2021-07-02 05:37:05,782] {subprocess.py:79} INFO - 2020-02-14
+[2021-07-02 05:37:05,783] {subprocess.py:79} INFO - 2020-02-21
+[2021-07-02 05:37:05,783] {subprocess.py:79} INFO - Parameter I passed in
+[2021-07-02 05:37:05,784] {subprocess.py:79} INFO - 2020-02-14
+[2021-07-02 05:37:05,784] {subprocess.py:79} INFO - 2020-02-21
+[2021-07-02 05:37:05,784] {subprocess.py:79} INFO - Parameter I passed in
+[2021-07-02 05:37:05,784] {subprocess.py:79} INFO - 2020-02-14
+[2021-07-02 05:37:05,785] {subprocess.py:79} INFO - 2020-02-21
+[2021-07-02 05:37:05,785] {subprocess.py:79} INFO - Parameter I passed in
+[2021-07-02 05:37:05,785] {subprocess.py:79} INFO - 2020-02-14
+[2021-07-02 05:37:05,785] {subprocess.py:79} INFO - 2020-02-21
+[2021-07-02 05:37:05,785] {subprocess.py:79} INFO - Parameter I passed in
+[2021-07-02 05:37:05,792] {subprocess.py:83} INFO - Command exited with return code 0
+[2021-07-02 05:37:05,886] {taskinstance.py:1191} INFO - Marking task as SUCCESS. dag_id=test, task_id=templated, execution_date=20200214T055500, start_date=20210702T053705, end_date=20210702T053705
+[2021-07-02 05:37:06,076] {taskinstance.py:1245} INFO - 0 downstream tasks scheduled from follow-on schedule check
+[2021-07-02 05:37:06,116] {local_task_job.py:151} INFO - Task exited with return code 0

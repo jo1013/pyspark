@@ -73,7 +73,7 @@ executor = LocalExecutor
 ## 5\. 실행
 
 
-## airflow 시작 명령어
+### airflow 시작 명령어
 
 
 ```
@@ -374,3 +374,14 @@ $ airflow tasks list
 ```
 $ jupyter notebook --allow-root --ip=0.0.0.0 --port=8888 --no-browser
 ```
+
+
+---
+
+# mysql Container db 연결법
+
+로컬터미널에서 ip 주소 확인
+```
+$ ifconfig
+```
+### 로컬에 연결되 있으므로 연결 db호스트를 로컬 ip주소를 입력하면된다.

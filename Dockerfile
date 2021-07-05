@@ -1,4 +1,5 @@
 # syntax=docker/dockerfile:1
+# Base docker file
 FROM ubuntu:20.10
 
 RUN apt-get dist-upgrade -y

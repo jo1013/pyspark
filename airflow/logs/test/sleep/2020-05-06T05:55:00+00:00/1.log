@@ -1,0 +1,27 @@
+[2021-07-02 05:38:20,230] {taskinstance.py:876} INFO - Dependencies all met for <TaskInstance: test.sleep 2020-05-06T05:55:00+00:00 [queued]>
+[2021-07-02 05:38:20,251] {taskinstance.py:876} INFO - Dependencies all met for <TaskInstance: test.sleep 2020-05-06T05:55:00+00:00 [queued]>
+[2021-07-02 05:38:20,258] {taskinstance.py:1067} INFO - 
+--------------------------------------------------------------------------------
+[2021-07-02 05:38:20,258] {taskinstance.py:1068} INFO - Starting attempt 1 of 4
+[2021-07-02 05:38:20,260] {taskinstance.py:1069} INFO - 
+--------------------------------------------------------------------------------
+[2021-07-02 05:38:20,334] {taskinstance.py:1087} INFO - Executing <Task(BashOperator): sleep> on 2020-05-06T05:55:00+00:00
+[2021-07-02 05:38:20,346] {standard_task_runner.py:52} INFO - Started process 146318 to run task
+[2021-07-02 05:38:20,371] {standard_task_runner.py:76} INFO - Running: ['airflow', 'tasks', 'run', 'test', 'sleep', '2020-05-06T05:55:00+00:00', '--job-id', '310', '--pool', 'default_pool', '--raw', '--subdir', 'DAGS_FOLDER/test.py', '--cfg-path', '/tmp/tmpa6c4_i1n', '--error-file', '/tmp/tmp0kpww7zl']
+[2021-07-02 05:38:20,377] {standard_task_runner.py:77} INFO - Job 310: Subtask sleep
+[2021-07-02 05:38:20,477] {logging_mixin.py:104} INFO - Running <TaskInstance: test.sleep 2020-05-06T05:55:00+00:00 [running]> on host 9b3ed935c8bc
+[2021-07-02 05:38:20,651] {taskinstance.py:1282} INFO - Exporting the following env vars:
+AIRFLOW_CTX_DAG_EMAIL=airflow@airflow.com
+AIRFLOW_CTX_DAG_OWNER=airflow
+AIRFLOW_CTX_DAG_ID=test
+AIRFLOW_CTX_TASK_ID=sleep
+AIRFLOW_CTX_EXECUTION_DATE=2020-05-06T05:55:00+00:00
+AIRFLOW_CTX_DAG_RUN_ID=scheduled__2020-05-06T05:55:00+00:00
+[2021-07-02 05:38:20,652] {subprocess.py:52} INFO - Tmp dir root location: 
+ /tmp
+[2021-07-02 05:38:20,653] {subprocess.py:63} INFO - Running command: ['bash', '-c', 'sleep 5']
+[2021-07-02 05:38:20,695] {subprocess.py:75} INFO - Output:
+[2021-07-02 05:38:25,704] {subprocess.py:83} INFO - Command exited with return code 0
+[2021-07-02 05:38:25,727] {taskinstance.py:1191} INFO - Marking task as SUCCESS. dag_id=test, task_id=sleep, execution_date=20200506T055500, start_date=20210702T053820, end_date=20210702T053825
+[2021-07-02 05:38:25,751] {taskinstance.py:1245} INFO - 0 downstream tasks scheduled from follow-on schedule check
+[2021-07-02 05:38:25,766] {local_task_job.py:151} INFO - Task exited with return code 0
