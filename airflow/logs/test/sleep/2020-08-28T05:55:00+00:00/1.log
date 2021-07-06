@@ -25,3 +25,10 @@ AIRFLOW_CTX_DAG_RUN_ID=scheduled__2020-08-28T05:55:00+00:00
 [2021-07-02 05:40:15,188] {taskinstance.py:1191} INFO - Marking task as SUCCESS. dag_id=test, task_id=sleep, execution_date=20200828T055500, start_date=20210702T054009, end_date=20210702T054015
 [2021-07-02 05:40:15,212] {taskinstance.py:1245} INFO - 0 downstream tasks scheduled from follow-on schedule check
 [2021-07-02 05:40:15,234] {local_task_job.py:151} INFO - Task exited with return code 0
+[2021-07-06 04:38:58,779] {taskinstance.py:876} INFO - Dependencies all met for <TaskInstance: test.sleep 2020-08-28T05:55:00+00:00 [queued]>
+[2021-07-06 04:38:58,812] {taskinstance.py:876} INFO - Dependencies all met for <TaskInstance: test.sleep 2020-08-28T05:55:00+00:00 [queued]>
+[2021-07-06 04:38:58,812] {taskinstance.py:1067} INFO - 
+--------------------------------------------------------------------------------
+[2021-07-06 04:38:58,812] {taskinstance.py:1068} INFO - Starting attempt 1 of 4
+[2021-07-06 04:38:58,813] {taskinstance.py:1069} INFO - 
+--------------------------------------------------------------------------------

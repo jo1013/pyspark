@@ -26,3 +26,31 @@ AIRFLOW_CTX_DAG_RUN_ID=scheduled__2020-03-26T05:55:00+00:00
 [2021-07-02 05:37:36,993] {taskinstance.py:1191} INFO - Marking task as SUCCESS. dag_id=test, task_id=print_date, execution_date=20200326T055500, start_date=20210702T053736, end_date=20210702T053736
 [2021-07-02 05:37:37,182] {taskinstance.py:1245} INFO - 0 downstream tasks scheduled from follow-on schedule check
 [2021-07-02 05:37:37,229] {local_task_job.py:151} INFO - Task exited with return code 0
+[2021-07-06 04:33:57,250] {taskinstance.py:876} INFO - Dependencies all met for <TaskInstance: test.print_date 2020-03-26T05:55:00+00:00 [queued]>
+[2021-07-06 04:33:57,277] {taskinstance.py:876} INFO - Dependencies all met for <TaskInstance: test.print_date 2020-03-26T05:55:00+00:00 [queued]>
+[2021-07-06 04:33:57,277] {taskinstance.py:1067} INFO - 
+--------------------------------------------------------------------------------
+[2021-07-06 04:33:57,277] {taskinstance.py:1068} INFO - Starting attempt 1 of 2
+[2021-07-06 04:33:57,278] {taskinstance.py:1069} INFO - 
+--------------------------------------------------------------------------------
+[2021-07-06 04:33:57,286] {taskinstance.py:1087} INFO - Executing <Task(BashOperator): print_date> on 2020-03-26T05:55:00+00:00
+[2021-07-06 04:33:57,292] {standard_task_runner.py:52} INFO - Started process 3841 to run task
+[2021-07-06 04:33:57,295] {standard_task_runner.py:76} INFO - Running: ['airflow', 'tasks', 'run', 'test', 'print_date', '2020-03-26T05:55:00+00:00', '--job-id', '138', '--pool', 'default_pool', '--raw', '--subdir', 'DAGS_FOLDER/test.py', '--cfg-path', '/tmp/tmpjpeny0os', '--error-file', '/tmp/tmpxkr1lgal']
+[2021-07-06 04:33:57,297] {standard_task_runner.py:77} INFO - Job 138: Subtask print_date
+[2021-07-06 04:33:57,346] {logging_mixin.py:104} INFO - Running <TaskInstance: test.print_date 2020-03-26T05:55:00+00:00 [running]> on host e4c2a6f3dcfb
+[2021-07-06 04:33:57,422] {taskinstance.py:1282} INFO - Exporting the following env vars:
+AIRFLOW_CTX_DAG_EMAIL=airflow@airflow.com
+AIRFLOW_CTX_DAG_OWNER=airflow
+AIRFLOW_CTX_DAG_ID=test
+AIRFLOW_CTX_TASK_ID=print_date
+AIRFLOW_CTX_EXECUTION_DATE=2020-03-26T05:55:00+00:00
+AIRFLOW_CTX_DAG_RUN_ID=scheduled__2020-03-26T05:55:00+00:00
+[2021-07-06 04:33:57,423] {subprocess.py:52} INFO - Tmp dir root location: 
+ /tmp
+[2021-07-06 04:33:57,424] {subprocess.py:63} INFO - Running command: ['bash', '-c', 'date']
+[2021-07-06 04:33:57,435] {subprocess.py:75} INFO - Output:
+[2021-07-06 04:33:57,437] {subprocess.py:79} INFO - Tue Jul  6 04:33:57 UTC 2021
+[2021-07-06 04:33:57,440] {subprocess.py:83} INFO - Command exited with return code 0
+[2021-07-06 04:33:57,475] {taskinstance.py:1191} INFO - Marking task as SUCCESS. dag_id=test, task_id=print_date, execution_date=20200326T055500, start_date=20210706T043357, end_date=20210706T043357
+[2021-07-06 04:33:57,529] {taskinstance.py:1245} INFO - 2 downstream tasks scheduled from follow-on schedule check
+[2021-07-06 04:33:57,549] {local_task_job.py:151} INFO - Task exited with return code 0
