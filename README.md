@@ -385,3 +385,8 @@ $ jupyter notebook --allow-root --ip=0.0.0.0 --port=8888 --no-browser
 $ ifconfig
 ```
 ### 로컬에 연결되 있으므로 연결 db호스트를 로컬 ip주소를 입력하면된다.
+
+
+
+
+Screenshot from 2021-07-06 18-38-44.png
