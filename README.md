@@ -388,5 +388,7 @@ $ ifconfig
 
 
 
+# 다른 컨테이너로 파이썬파일 실행할떄 ssh 사용
 
-Screenshot from 2021-07-06 18-38-44.png
+$ 
+
