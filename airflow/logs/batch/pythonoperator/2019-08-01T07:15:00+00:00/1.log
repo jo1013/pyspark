@@ -1,0 +1,38 @@
+[2021-07-08 07:17:11,718] {taskinstance.py:876} INFO - Dependencies all met for <TaskInstance: batch.pythonoperator 2019-08-01T07:15:00+00:00 [queued]>
+[2021-07-08 07:17:11,734] {taskinstance.py:876} INFO - Dependencies all met for <TaskInstance: batch.pythonoperator 2019-08-01T07:15:00+00:00 [queued]>
+[2021-07-08 07:17:11,734] {taskinstance.py:1067} INFO - 
+--------------------------------------------------------------------------------
+[2021-07-08 07:17:11,734] {taskinstance.py:1068} INFO - Starting attempt 1 of 1
+[2021-07-08 07:17:11,735] {taskinstance.py:1069} INFO - 
+--------------------------------------------------------------------------------
+[2021-07-08 07:17:11,741] {taskinstance.py:1087} INFO - Executing <Task(PythonOperator): pythonoperator> on 2019-08-01T07:15:00+00:00
+[2021-07-08 07:17:11,747] {standard_task_runner.py:52} INFO - Started process 51687 to run task
+[2021-07-08 07:17:11,750] {standard_task_runner.py:76} INFO - Running: ['airflow', 'tasks', 'run', 'batch', 'pythonoperator', '2019-08-01T07:15:00+00:00', '--job-id', '1620', '--pool', 'default_pool', '--raw', '--subdir', 'DAGS_FOLDER/Batch_test_operators.py', '--cfg-path', '/tmp/tmpt5gxvx38', '--error-file', '/tmp/tmpcivk_2sq']
+[2021-07-08 07:17:11,752] {standard_task_runner.py:77} INFO - Job 1620: Subtask pythonoperator
+[2021-07-08 07:17:11,787] {logging_mixin.py:104} INFO - Running <TaskInstance: batch.pythonoperator 2019-08-01T07:15:00+00:00 [running]> on host e4c2a6f3dcfb
+[2021-07-08 07:17:11,834] {taskinstance.py:1282} INFO - Exporting the following env vars:
+AIRFLOW_CTX_DAG_OWNER=airflow
+AIRFLOW_CTX_DAG_ID=batch
+AIRFLOW_CTX_TASK_ID=pythonoperator
+AIRFLOW_CTX_EXECUTION_DATE=2019-08-01T07:15:00+00:00
+AIRFLOW_CTX_DAG_RUN_ID=scheduled__2019-08-01T07:15:00+00:00
+[2021-07-08 07:17:11,835] {logging_mixin.py:104} INFO - ============================================================
+[2021-07-08 07:17:11,835] {logging_mixin.py:104} INFO - seconds:10
+[2021-07-08 07:17:11,835] {logging_mixin.py:104} INFO - ============================================================
+[2021-07-08 07:17:11,835] {taskinstance.py:1481} ERROR - Task failed with exception
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.6/dist-packages/airflow/models/taskinstance.py", line 1137, in _run_raw_task
+    self._prepare_and_execute_task_with_callbacks(context, task)
+  File "/usr/local/lib/python3.6/dist-packages/airflow/models/taskinstance.py", line 1311, in _prepare_and_execute_task_with_callbacks
+    result = self._execute_task(context, task_copy)
+  File "/usr/local/lib/python3.6/dist-packages/airflow/models/taskinstance.py", line 1341, in _execute_task
+    result = task_copy.execute(context=context)
+  File "/usr/local/lib/python3.6/dist-packages/airflow/operators/python.py", line 150, in execute
+    return_value = self.execute_callable()
+  File "/usr/local/lib/python3.6/dist-packages/airflow/operators/python.py", line 161, in execute_callable
+    return self.python_callable(*self.op_args, **self.op_kwargs)
+  File "/home/pyspark/airflow/dags/Batch_test_operators.py", line 30, in sleep_seconds
+    pprint(kwargs)
+NameError: name 'pprint' is not defined
+[2021-07-08 07:17:11,836] {taskinstance.py:1531} INFO - Marking task as FAILED. dag_id=batch, task_id=pythonoperator, execution_date=20190801T071500, start_date=20210708T071711, end_date=20210708T071711
+[2021-07-08 07:17:11,881] {local_task_job.py:151} INFO - Task exited with return code 1

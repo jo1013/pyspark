@@ -4,7 +4,7 @@ services: # 이 항목 밑에 실행하려는 컨테이너 들을 정의 ( 컴�
 
 
   airflow:
-    image : jo1013/airflow:0.07
+    image : jo1013/airflow:0.08
     restart: always
     container_name:  airflow
     ports: 
@@ -13,7 +13,7 @@ services: # 이 항목 밑에 실행하려는 컨테이너 들을 정의 ( 컴�
       -  LC_ALL=C.UTF-8
     volumes:
       - ~/workspace:/home # -v 옵션 (다렉토리 마운트 설정)
-
+      - /var/run/docker.sock:/var/run/docker.sock
      
   airflow-db: # 서비스 명
     image: mysql:8.0.17 # 사용할 이미지
@@ -39,7 +39,7 @@ services: # 이 항목 밑에 실행하려는 컨테이너 들을 정의 ( 컴�
 
 
   py_spark_air:
-    image : jo1013/pyspark:0.05
+    image : jo1013/pyspark:0.06
     restart : always
     container_name : py_spark_air
 
