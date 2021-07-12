@@ -386,12 +386,21 @@ $ ifconfig
 ```
 ### 로컬에 연결되 있으므로 연결 db호스트를 로컬 ip주소를 입력하면된다.
 
-
-
-<<<<<<< HEAD
-=======
 # 다른 컨테이너로 파이썬파일 실행할떄 ssh 사용
 
-$ 
 
->>>>>>> a8a79697f390b61050ad62199883f269213aafe5
+## airflow dag command에 다른컨테이너 명령 실행
+
+##   ssh로 명령내리기 
+
+
+
+*그전에 해당컨테이너와 명령어 받는 컨테이너에 ssh 설치하고명령어 받는 컨테이너에 /etc/ssh/sshd_config 에서 PermitRootLogin 을 yes로 고쳐주어야함 (절대X) (보안 위험)
+
+```
+$ ssh-keygen -t rsa
+```
+
+* id_rsa: 비밀키
+* id_rsa.pub: 공개키
+
