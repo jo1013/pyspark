@@ -388,5 +388,3 @@ $ ifconfig
 
 
 
-
-Screenshot from 2021-07-06 18-38-44.png
