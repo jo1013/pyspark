@@ -58,7 +58,7 @@ with models.DAG(
     
     
     templated_command="""
-        sshpass -p'root' ssh root@172.22.0.2 python3 /home/pyspark/batch_test.py 
+        ssh [사용자명]@[ip주소] 명령어
     """
 
 
