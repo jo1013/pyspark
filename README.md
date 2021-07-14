@@ -40,10 +40,17 @@ $ docker exec -it [설정이름] bash
 ## 3\.  postgresql 구동
 
 * postgreqs 시작
+
+
 ```
 $ service postgresql start
 ```
 
+#### 컨테이너를 계속 띄우기 싫다면 ?
+* 로컬 터미널에서
+```
+$ docker exec -it -d airflow service postgresql start 
+```
 
 ## 4\. 연결 디렉토리 변경
 
@@ -79,6 +86,14 @@ executor = LocalExecutor
 ```
 $ airflow webserver
 ```
+#### 컨테이너를 계속 띄우기 싫다면 ?
+* 로컬 터미널에서
+```
+$ docker exec -it -d airflow airflow webserver
+```
+
+
+
 * https://localhost:8090으로 접속하면 airflow화면을 볼 수 있다. 
 
 * id : admin
