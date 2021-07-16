@@ -95,7 +95,7 @@ $ docker exec -it -d airflow airflow webserver
 
 
 * https://localhost:8090으로 접속하면 airflow화면을 볼 수 있다. 
-
+ 
 * id : admin
 * password : admin
 
@@ -103,6 +103,8 @@ $ docker exec -it -d airflow airflow webserver
 
 ---
 ---
+## AIRFLOW
+
 
 ### airflow만  실행 명령어
 ```
@@ -147,6 +149,8 @@ $ pg_ctlcluster 13 main start
 ```
 
 ### 아래와 같이 수정
+
+
 ### 모든 포트에 대해 열어놓기 (추후 수정 필요)
 ```
 # IPv4 local connections:                                                          
@@ -404,13 +408,18 @@ $ ifconfig
 # 다른 컨테이너로 파이썬파일 실행할떄 ssh 사용
 
 
-## airflow dag command에 다른컨테이너 명령 실행
+## Airflow dag command에 다른컨테이너 명령 실행 방법
 
-##   ssh로 명령내리기 
+## 해법 :   ssh로 명령내리기 
 
-
+---
 
 *그전에 해당컨테이너와 명령어 받는 컨테이너에 ssh 설치하고명령어 받는 컨테이너에 /etc/ssh/sshd_config 에서 PermitRootLogin 을 yes로 고쳐주어야함 (절대X) (보안 위험)
+
+### ssh 접속 정보를 코드에 두는 것을 피하기 위해 
+1.  Airflow DB에 접속정보를 저장하고 operator에서는 불러서 쓸 수 있는 SSH Connection을 설정해서 사용
+2. 추가로 가능하다면 외부 secret manager 형 서비스를 사용하시는 것을 권장드립니다.
+
 
 ```
 $ ssh-keygen -t rsa
@@ -419,3 +428,21 @@ $ ssh-keygen -t rsa
 * id_rsa: 비밀키
 * id_rsa.pub: 공개키
 
+
+실행하는 컨테이너에서 사용자를 추가 
+```
+$ useradd airflow
+$ useradd [유저]
+```
+```
+su -  airflow
+```
+```
+$  mkdir .ssh
+```
+
+### 사용 폴더 권한 허용
+```
+$ chown -R airflow:airflow /home/workspace
+$ chown -R 계정명:계정명 [홈디렉터리경로]
+```
