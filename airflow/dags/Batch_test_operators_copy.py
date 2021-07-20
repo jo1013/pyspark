@@ -34,7 +34,7 @@ def sleep_seconds(seconds, **kwargs):
     return 'sleep well!!!'
 
 with models.DAG(
-    dag_id='batch_test', description='two DAG',
+    dag_id='batch_test_copy', description='two DAG',
 #    schedule_interval='2021 07 08 15 15', tzinfo=KST)
     schedule_interval='15 16 0 * *',
     start_date=datetime(2017, 3, 20)) as dag:
