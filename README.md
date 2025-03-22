@@ -1,253 +1,169 @@
-# AIRFLOW + PYSPARK
+# Airflow + PySpark 설치 및 실행 가이드
 
-이 글은 우분투 기준으로 작성되었습니다.
+> 이 가이드는 우분투 환경을 기준으로 작성되었습니다.
 
----
+## 목차
+- [환경 설정](#환경-설정)
+- [Docker 실행](#docker-실행)
+- [Airflow 설정](#airflow-설정)
+- [PostgreSQL 설정](#postgresql-설정)
+- [Airflow 계정 생성](#airflow-계정-생성)
+- [PySpark 실행](#pyspark-실행)
+- [MySQL 설정](#mysql-설정)
+- [유용한 명령어](#유용한-명령어)
+- [SSH 설정](#ssh-설정)
 
-## 0\. 환경셋팅
+## 환경 설정
 
-### docker 환경 다운
-
-```
-$ docker pull jo1013/pyspark:0.05
-$ docker pull jo1013/airflow:0.07
-$ docker pull mysql:8.0.17
-```
-
-
-### git clone (글쓴이는 /home/workspace 에서 실행)
-
-```
-$ git clone https://github.com/jo1013/pyspark.git
-$ cd pyspark
-```
-
-## 1\. 실행 명령어 
-
-``` 
-$ docker-compose up  ## mysql pyspark airflow(postgresql) 컨테이너실행
-```
-* (docker-compose.yml에서 3개의 container는 본인의 volumes에 맞게 수정한다.)
-
-## 2\. 다른 터미널로 컨테이너 접속하기
-
-```
-$ docker exec -it airflow bash
-
-$ docker exec -it [설정이름] bash
+### Docker 이미지 다운로드
+```bash
+docker pull jo1013/pyspark:0.05
+docker pull jo1013/airflow:0.07
+docker pull mysql:8.0.17
 ```
 
-## 3\.  postgresql 구동
-
-* postgreqs 시작
-
-
-```
-$ service postgresql start
+### 저장소 클론
+```bash
+git clone https://github.com/jo1013/pyspark.git
+cd pyspark
 ```
 
-#### 컨테이너를 계속 띄우기 싫다면 ?
-* 로컬 터미널에서
+## Docker 실행
+
+### 모든 컨테이너 실행
+```bash
+docker-compose up  # mysql, pyspark, airflow(postgresql) 컨테이너 실행
 ```
-$ docker exec -it -d airflow service postgresql start 
+> `docker-compose.yml`에서 볼륨 설정을 본인 환경에 맞게 수정하세요.
+
+### 컨테이너 접속
+```bash
+docker exec -it airflow bash
+docker exec -it [컨테이너_이름] bash
 ```
 
-## 4\. 연결 디렉토리 변경
+## Airflow 설정
 
-```
-$ nano /root/airflow/airflow.cfg
+### 디렉토리 설정 변경
+`airflow.cfg` 파일을 열어 설정을 변경합니다:
+```bash
+nano /root/airflow/airflow.cfg
 ```
 
-### 자신의 볼률 설정에 맞게 수정 (글쓴이와 폴더설정 같을 경우 고칠 필요 X)
-
+다음 항목을 수정합니다:
 ```
-# dags_folder = /root/airflow/dags 
+# 디렉토리 설정
 dags_folder = /home/pyspark/airflow/dags
-
-# base_log_folder = /root/airflow/logs 
-base_log_folder = /home/pyspark/airflow/logs 
-
-# plugins_folder = /root/airflow/plugins
+base_log_folder = /home/pyspark/airflow/logs
 plugins_folder = /home/pyspark/airflow/plugins
 
-# default_timezone = utc 
-default_timezone = Asia/Seoul 
+# 시간대 설정
+default_timezone = Asia/Seoul
 
-# executor = SequentialExecutor 
-executor = LocalExecutor 
-
-```
-## 5\. 실행
-
-
-### airflow 시작 명령어
-
-
-```
-$ airflow webserver
-```
-#### 컨테이너를 계속 띄우기 싫다면 ?
-* 로컬 터미널에서
-```
-$ docker exec -it -d airflow airflow webserver
+# 실행자 설정
+executor = LocalExecutor
 ```
 
+### Airflow 단독 실행
+```bash
+# 대화형 모드
+docker run -it -d -p 8090:8080 -v ~/workspace:/home -e LC_ALL=C.UTF-8 --name airflow6 jo1013/airflowex:0.06
 
-
-* https://localhost:8090으로 접속하면 airflow화면을 볼 수 있다. 
- 
-* id : admin
-* password : admin
-
-
-
----
----
-## AIRFLOW
-
-
-### airflow만  실행 명령어
-```
-$ cd Airflow
-$ docker run -it -d -p 8090:8080 -v ~/workspace:/home -e LC_ALL=C.UTF-8 --name airflow6 jo1013/airflowex:0.06
-$ docker run -it -d -p [연결로컬포트]:[연결도커포트] -v [로컬디렉터리]:[컨테이너디렉터리] -e LC_ALL=C.[인코딩방식] --name [설정할이름] [dockerhubid]/[imagename]:[tag]
+# 일반 형식
+docker run -it -d -p [로컬포트]:[컨테이너포트] -v [로컬디렉토리]:[컨테이너디렉토리] -e LC_ALL=C.[인코딩방식] --name [컨테이너이름] [이미지명]:[태그]
 ```
 
+### Airflow 웹서버 실행
+```bash
+# 컨테이너 내부에서 실행
+airflow webserver
 
-
-### DB account 설정 및 권한 설정
+# 백그라운드로 실행
+docker exec -it -d airflow airflow webserver
 ```
-$ sudo su - postgres
-$ psql
-$ CREATE DATABASE airflow;
-$ CREATE USER timmy with ENCRYPTED password '0000';
-$ GRANT all privileges on DATABASE airflow to timmy;
-```
+> 웹 인터페이스는 `http://localhost:8090`으로 접속할 수 있습니다.
 
+## PostgreSQL 설정
 
-### postgres 유저의 airflow db접속
+### PostgreSQL 시작
+```bash
+service postgresql start
 
-```
-$ \c airflow
-$ GRANT all privileges on all tables in schema public to timmy;
-$ \q        
-$ exit
-```
-
-### postgre cluster 설정
-
-```
-$ pg_createcluster 13 main 
-$ pg_ctlcluster 13 main start
+# 백그라운드로 실행
+docker exec -it -d airflow service postgresql start
 ```
 
-## postgresql 설정
-
-```
-# $ cd /etc/postgresql/13/main
-# $ nano pg_hba.conf
-```
-
-### 아래와 같이 수정
-
-
-### 모든 포트에 대해 열어놓기 (추후 수정 필요)
-```
-# IPv4 local connections:                                                          
-host        all             all             0.0.0.0/0               md5 
+### 데이터베이스 및 사용자 생성
+```bash
+sudo su - postgres
+psql
+CREATE DATABASE airflow;
+CREATE USER timmy with ENCRYPTED password '0000';
+GRANT all privileges on DATABASE airflow to timmy;
+\c airflow
+GRANT all privileges on all tables in schema public to timmy;
+\q
+exit
 ```
 
-### DB 재시작
-
+### PostgreSQL 클러스터 설정
+```bash
+pg_createcluster 13 main
+pg_ctlcluster 13 main start
 ```
-$ service postgresql restart
+
+### 외부 접속 허용 설정
+```bash
+cd /etc/postgresql/13/main
+nano pg_hba.conf
 ```
 
-### Arflow 수정하기
-
-
-
+다음 내용으로 수정:
 ```
-# sql_alchemy_conn = sqlite:////root/airflow/airflow.db 
-# sql_alchemy_conn = postgresql+psycopg2://timmy:0000@172.17.0.2/airflow    
+# IPv4 local connections:
+host    all    all    0.0.0.0/0    md5
+```
 
-# docker hub에서는 가능햇으나 docker-compose에서는 단일 컨테이너과 IP Adress가 달라진다.
+PostgreSQL 재시작:
+```bash
+service postgresql restart
+```
 
+### Airflow 데이터베이스 연결 설정
+`airflow.cfg` 파일에서 다음 항목을 수정:
+```
+# SQL Alchemy 연결 설정
 sql_alchemy_conn = postgresql+psycopg2://timmy:0000@localhost/airflow
-# --> 같은 docker (컨테이너) 내에서 postgresql이 작동하므로 localhost로 고친다.
+```
+> 컨테이너에서 PostgreSQL이 동작하므로 `localhost`로 설정합니다.
+
+### 컨테이너 IP 확인
+```bash
+ifconfig
 ```
 
+## Airflow 계정 생성
 
-
-* sql\_alchemy\_conn에 localhost를 적으면 해당 컨테이너를 찾아가지 못하기 때문에 postgres컨테이너의 IP를 넣어줘야한다.
-
-### IP 확인
-
-```
-$ ifconfig
+### 데이터베이스 초기화
+```bash
+airflow db init
 ```
 
-## 외부접속 허용
-
-```
-$ cd /etc/postgresql/13/main
-$ nano pg_hba.conf 
-```
-
-#### 아래처럼 수정
-
-```
-IPv4 local connections:                                                          
-host        all             all             0.0.0.0/0               md5 
+### 방법 1: Python 스크립트로 계정 생성
+`makeuser.py` 파일 생성:
+```bash
+cd home
+nano makeuser.py
 ```
 
-## postgresql 재시작
-```
-$ service postgresql restart
-```
-
-##  폴더 만들기
-
-```
-$ cd Airflow
-$ mkdir dags
-$ mkdir logs
-```
-
-##  airflow db 초기화 (로그인 안될때 이용)
-
-```
-$ airflow db init
-```
-
-##  변경 내용 저장
-
-```
-$ docker commit postgres postgres:airflow
-```
-
-## 계정 생성 py 파일 실행
-
-```
-$ cd home
-
-$ nano makeuser.py  
-```
-
-makeuser.py를 ~/airflow\_home 위치로 수정
-
-```
-$ cp makeuser.py airflow
-```
-
-#### makr user.py 에 넣을 내용 아래 복사 (아이디,비밀번호 수정)
-
-
-```
+다음 내용 추가:
+```python
 import airflow
 from airflow import models, settings
 from airflow.contrib.auth.backends.password_auth import PasswordUser
 
+user = PasswordUser(models.User())
+user.username = 'admin'
 user.email = 'sunny@test.com'
 user.password = 'sunny'
 user.superuser = True
@@ -256,193 +172,79 @@ session.add(user)
 session.commit()
 session.close()
 exit()
-
 ```
 
----
-
-####  또는 터미널에서 직접 계정생성
-#### (아이디,비밀번호 수정)
-
-```
-$ airflow users create \
-          --username admin \
-          --firstname FIRST_NAME \
-          --lastname LAST_NAME \
-          --role Admin \
-          --email admin@example.org
-
+### 방법 2: 명령줄에서 계정 생성
+```bash
+airflow users create \
+  --username admin \
+  --firstname FIRST_NAME \
+  --lastname LAST_NAME \
+  --role Admin \
+  --email admin@example.org \
+  --password admin
 ```
 
+## PySpark 실행
 
-
-
-
-
-* db 초기화 (postgres 'airflow' table )
-```
-airflow db init 
+### PySpark 컨테이너 단독 실행
+```bash
+docker run -it --rm -p 8888:8888 -p 8000:8000 -v ~/workspace:/home jo1013/pyspark:0.05
 ```
 
-## 참고 자료
-
-
-
-### Creating a Database Cluster
-
-```
--   In file system terms, a database cluster is a single directory under which all data will be stored. We call this the data directory or data area. It is completely up to you where you choose to store your data. There is no default, although locations such as /usr/local/pgsql/data or /var/lib/pgsql/data are popular. The data directory must be initialized before being used, using the program initdb which is installed with PostgreSQL.
--   보통 위의 글중에 나온 경로와 같이 경로 설정을 하지만 꼭 그럴 필요는 없다는 내용~
-
----
+### Jupyter Notebook 실행
+```bash
+jupyter notebook --allow-root --ip=0.0.0.0 --port=8888 --no-browser
 ```
 
-## Airflow 명명법
-### 다음은 Airflow 업무 흐름을 설계할 때 사용하는 몇 가지 용어에 관한 간략한 개요이다.
+## MySQL 설정
 
-* Airflow DAG는 태스크로 구성된다.
+### MySQL 컨테이너 실행
+```bash
+docker run --name db-mysql -e MYSQL_ROOT_PASSWORD=root -d -p 3306:3306 mysql
 
-* 각 태스크는 오퍼레이터 클래스를 인스턴스화하여 만든다. 구성한 오퍼레이터 인스턴스는 다음과 같이 태스크가 된다. my_task = MyOperator(...)
-
-* DAG가 시작되면 Airflow는 데이터베이스에 DAG 런 항목을 만든다.
-
-* 특정 DAG 런 맥락에서 태스크를 실행하면 태스크 인스턴스가 만들어진다.
-
-* AIRFLOW_HOME은 DAG 정의 파일과 Airflow 플러그인을 저장하는 디렉터리이다.
-
-
-
-출처 : https://aldente0630.github.io/data-engineering/2018/06/17/developing-workflows-with-apache-airflow.html
-
--> 버전이 달라서인지  위 출처의 튜토리얼을 따라하다보면  import 오류가 발생하는데    dags/test_operators.py 에서 
-
-```
-from airflow.operators import MyFirstOperator
-```
-를  
-
-```
-from my_operators import MyFirstOperator
-
-from [filename] import [classname]
-```
-으로 고쳐주면 된다. 
-
-버전 변경으로 인한 오류로 보인다.?
-
-
-
-
----------------------------------------------------
-
-
-
-
-
-
-
-
-# pyspark
-
-
-
-#### pyspark 컨테이너만 실행 
-
-```
-$ docker run -it --rm -p 8888:8888 -p 8000:8000 -v ~/workspace:/home jo1013/pyspark:0.05
+# 옵션 추가 버전
+docker run -n db-mysql -e MYSQL_DATABASE=testdb -e MYSQL_ROOT_PASSWORD=root -e TZ=Asia/Seoul -p 3306:3306 --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
 ```
 
-### pyspark bash 접속
+## 유용한 명령어
 
-```
-$ docker exec -it py_spark bash
-$ docker exec -it [container id or container name] bash
-```
+### Airflow 명령어
+```bash
+# DAG 목록 확인
+airflow dags list
 
-### 쥬피터 노트북 실행 포트 8888 (pyspark 컨테이너 내에서 실행)
-```
-$ jupyter notebook --allow-root --ip=0.0.0.0 --port=8888 --no-browser
-```
-
-
-
-### mysql만 run   run 
-
-```
-$ docker run -n db-mysql -e MYSQL_DATABASE=testdb - MYSQL_ROOT_PASSWORD=root - TZ=Asia/Seoul -p 3306:3306 -c --character-set-server=utf8mb4 -c --collation-server=utf8mb4_unicode_ci 
+# 태스크 목록 확인
+airflow tasks list [dag_id]
 ```
 
+## SSH 설정
+
+### SSH 키 생성
+```bash
+ssh-keygen -t rsa
 ```
-$ docker run --name db-mysql -e MYSQL_ROOT_PASSWORD=root -d -p 3306:3306 mysql
-```
+> 이 명령은 `id_rsa`(비밀키)와 `id_rsa.pub`(공개키)를 생성합니다.
 
-### airflow dag 리스트 보기 
-```
-$ airflow dags list
-```
+### 사용자 추가 및 설정
+```bash
+# 사용자 추가
+useradd airflow
 
-### task list 보기 
+# 사용자로 전환
+su - airflow
 
-```
-$ airflow tasks list
-```
+# SSH 디렉토리 생성
+mkdir .ssh
 
-
-
-### 쥬피터 노트북 실행 포트 8888 
-```
-$ jupyter notebook --allow-root --ip=0.0.0.0 --port=8888 --no-browser
-```
-
-
----
-
-# mysql Container db 연결법
-
-로컬터미널에서 ip 주소 확인
-```
-$ ifconfig
-```
-### 로컬에 연결되 있으므로 연결 db호스트를 로컬 ip주소를 입력하면된다.
-
-# 다른 컨테이너로 파이썬파일 실행할떄 ssh 사용
-
-
-## Airflow dag command에 다른컨테이너 명령 실행 방법
-
-## 해법 :   ssh로 명령내리기 
-
----
-
-*그전에 해당컨테이너와 명령어 받는 컨테이너에 ssh 설치하고명령어 받는 컨테이너에 /etc/ssh/sshd_config 에서 PermitRootLogin 을 yes로 고쳐주어야함 (절대X) (보안 위험)
-
-### ssh 접속 정보를 코드에 두는 것을 피하기 위해 
-1.  Airflow DB에 접속정보를 저장하고 operator에서는 불러서 쓸 수 있는 SSH Connection을 설정해서 사용
-2. 추가로 가능하다면 외부 secret manager 형 서비스를 사용하시는 것을 권장드립니다.
-
-
-```
-$ ssh-keygen -t rsa
+# 폴더 권한 설정
+chown -R airflow:airflow /home/workspace
 ```
 
-* id_rsa: 비밀키
-* id_rsa.pub: 공개키
+## Airflow 용어 정리
 
-
-실행하는 컨테이너에서 사용자를 추가 
-```
-$ useradd airflow
-$ useradd [유저]
-```
-```
-su -  airflow
-```
-```
-$  mkdir .ssh
-```
-
-### 사용 폴더 권한 허용
-```
-$ chown -R airflow:airflow /home/workspace
-$ chown -R 계정명:계정명 [홈디렉터리경로]
-```
+- **DAG(Directed Acyclic Graph)**: 태스크로 구성된 워크플로우
+- **Task**: 오퍼레이터 클래스의 인스턴스
+- **DAG Run**: DAG가 실행되면 생성되는 데이터베이스 항목
+- **Task Instance**: 특정 DAG 실행 컨텍스트에서 태스크가 실행될 때 생성
+- **AIRFLOW_HOME**: DAG 정의 파일과 Airflow 플러그인을 저장하는 디렉토리
